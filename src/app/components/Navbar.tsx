@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
@@ -20,15 +21,23 @@ const Navbar = () => {
                         <nav className="max-md:hidden">
                             <ul className="flex items-center lg:space-x-10 space-x-7 opacity-70 text-sm">
                                 <li><a href="/" className="w-full inline-block py-3">Shop</a></li>
-                                <li><a href="filters" className="w-full inline-block py-3">filters</a></li>
-                                <li><a href="products" className="w-full inline-block py-3">products</a></li>
+                                <li><a href="filters" className="w-full inline-block py-3">Filters</a></li>
+                                <li><a href="products" className="w-full inline-block py-3">Products</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div className="flex items-center space-x-4">
                         <SearchBar />
                         <div onClick={() => setShowProfile(!showProfile)} className="relative cursor-pointer">
-                            <img src="https://avatars.githubusercontent.com/u/73664886?s=400&u=6824d58ccd07388df2f3cc01f2992d214344a9c4&v=4" className='w-[35px] h-[35px] rounded-full object-cover' alt="" />
+                            <Image 
+                                src="/andrew.jpg"
+                                className='w-9 h-9 rounded-full object-cover'
+                                quality={100}
+                                loading="lazy"
+                                height={100}
+                                width={100}
+                                alt="pp"
+                            />
                             <div className={`absolute w-10 flex justify-center bg-white  z-[2] rounded-lg shadow-xl  text-[9px] ${showProfile ? "" : "hidden"}`}>
                                 <Link href="/">Sign In</Link>
                             </div>
@@ -51,7 +60,7 @@ const Navbar = () => {
                     <ul className='flex flex-col text-sm opacity-75 px-2'>
                         <li><a href="/shop" className='py-3 inline-block w-full '>Shop</a></li>
                         <li><a href="/filters" className='py-3 inline-block w-full '>Filters</a></li>
-                        <li><a href="/myproducts" className='py-3 inline-block w-full '>My Product</a></li>
+                        <li><a href="/products" className='py-3 inline-block w-full '>My Product</a></li>
                     </ul>
                     <div className='flex items-center bg-gray-100 p-2 rounded-lg my-4 py-3'>
                         <input
