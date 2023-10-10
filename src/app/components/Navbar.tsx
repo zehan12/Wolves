@@ -6,10 +6,14 @@ import { CiShoppingCart } from "react-icons/ci";
 import { BsChevronCompactUp } from "react-icons/bs";
 import { BiSearch } from "react-icons/bi";
 import SearchBar from "./SearchBar";
+import { useSession } from "next-auth/react";
+import SignOut from "./SignOut";
 
 const Navbar = () => {
     const [showProfile, setShowProfile] = useState<boolean>(false);
     const [showNav, setShowNav] = useState<boolean>(false);
+    const { data: session } = useSession();
+
     return (
         <>
             <div>
@@ -29,7 +33,7 @@ const Navbar = () => {
                     <div className="flex items-center space-x-4">
                         <SearchBar />
                         <div onClick={() => setShowProfile(!showProfile)} className="relative cursor-pointer">
-                            <Image 
+                            <Image
                                 src="/andrew.jpg"
                                 className='w-9 h-9 rounded-full object-cover'
                                 quality={100}
@@ -38,11 +42,11 @@ const Navbar = () => {
                                 width={100}
                                 alt="pp"
                             />
-                            <div className={`absolute w-10 flex justify-center bg-white  z-[2] rounded-lg shadow-xl  text-[9px] ${showProfile ? "" : "hidden"}`}>
-                                <Link href="/">Sign In</Link>
+                            <div className={`absolute -right-14 w-40 flex justify-center bg-white  z-[2] rounded-lg shadow-xl  text-[9px] ${showProfile ? "" : "hidden"}`}>
+                                <SignOut />
                             </div>
                         </div>
-                        <Link href="/cart">
+                        <Link href={session?.user ? "/cart" : "/sign-in"}>
                             <div className="p-2 bg-gray-100 rounded-full">
                                 <CiShoppingCart size={20} />
                             </div>
