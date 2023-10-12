@@ -113,7 +113,7 @@ const ProductFrom = (props: props) => {
                 method: "post",
                 body: JSON.stringify(formData)
             })
-            // router.push('/')
+            router.push('/');
             console.log(response)
         } catch (error) {
             console.log(error)

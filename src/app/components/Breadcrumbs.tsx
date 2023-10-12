@@ -22,6 +22,7 @@ const Breadcrumbs = () => {
     };
 
     const routes = get_breadcrumbs(path);
+
     return (
         <nav className="flex" aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-4">
