@@ -1,11 +1,12 @@
 'use client';
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Sizes from "../components/Sizes";
 import Color from "../components/Color";
 import Para from "../components/Para";
+import ImageUpload from "../components/ImageUpload";
+import Price from "../components/Price";
 
 type props = {};
 
@@ -31,9 +32,29 @@ const ProductFrom = (props: props) => {
         store: ''
     })
 
-    const [Description, setDescription] = useState<string>('')
-    const [info, updateInfo] = useState<any>()
-    const [imageUrls, setImageUrls] = useState<string[]>([])
+    const [Description, setDescription] = useState<string>('');
+    const [info, updateInfo] = useState<any>();
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+    const currency: {} = useMemo(() => {
+        return {
+            'USD': '$', // US Dollar
+            'EUR': '€', // Euro
+            'CRC': '₡', // Costa Rican Colón
+            'GBP': '£', // British Pound Sterling
+            'ILS': '₪', // Israeli New Sheqel
+            'INR': '₹', // Indian Rupee
+            'JPY': '¥', // Japanese Yen
+            'KRW': '₩', // South Korean Won
+            'NGN': '₦', // Nigerian Naira
+            'PHP': '₱', // Philippine Peso
+            'PLN': 'zł', // Polish Zloty
+            'PYG': '₲', // Paraguayan Guarani
+            'THB': '฿', // Thai Baht
+            'UAH': '₴', // Ukrainian Hryvnia
+            'VND': '₫', // Vietnamese Dong
+        };
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -43,8 +64,8 @@ const ProductFrom = (props: props) => {
         })
     }
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.name === "price" && parseInt(e.target.value);
-        const inventory = e.target.name === "inventory" && parseInt(e.target.value);
+        const value = e.target.name === "price" ? parseInt(e.target.value) : parseInt(e.target.value)
+        const inventory = e.target.name === "inventory" ? parseInt(e.target.value) : parseInt(e.target.value)
         setFormData({
             ...formData,
             [e.target.name]: value,
@@ -67,15 +88,37 @@ const ProductFrom = (props: props) => {
         // console.log(formData)
     }, [formData])
 
+    useEffect(() => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            description: Description,
+            images: imageUrls.toString(),
+            userId: id
+        }))
+    }, [imageUrls,Description,id]);
 
-    // useEffect(() => {
-    //     setFormData((prevFormData) => ({
-    //         ...prevFormData,
-    //         description:Description,
-    //         images:imageUrls.toString(),
-    //         userId:id
-    //     }))
-    // }, [imageUrls])
+
+    // useEffect(()=>{
+    //     console.log("component render")
+    // },[])
+
+    const componentType = typeof window === 'undefined' ? 'server' : 'client';
+    console.log(componentType, "product form");
+
+    const postData = async () => {
+        // console.log("click submit")
+        handleImageChange()
+        try {
+            const response = await fetch('/api/add-product', {
+                method: "post",
+                body: JSON.stringify(formData)
+            })
+            // router.push('/')
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -152,6 +195,8 @@ const ProductFrom = (props: props) => {
                             onChange={handlePriceChange}
                         />
                     </div>
+                    {/* <Price currency={currency} /> */}
+
                     <div>
                         <div>
                             <label htmlFor="color" className='font-medium'>Color</label>
@@ -169,10 +214,9 @@ const ProductFrom = (props: props) => {
                 <label htmlFor="" className='mt-10 inline-block font-medium'>Description about your product</label>
                 <Para setDescription={setDescription} description={formData.description} />
                 <label htmlFor="" className='mt-10 inline-block font-medium'>Upload Images</label>
-                {/* <ImageUpload info={info} updateInfo={updateInfo} imageUrls={imageUrls} setImageUrls={setImageUrls} handleImageChange={handleImageChange} /> */}
-                {/* <button onClick={postData} className='text-white mt-10 border-[1px] bg-purple-500 rounded-lg px-5 p-2'>Submit</button> */}
+                <ImageUpload info={info} updateInfo={updateInfo} imageUrls={imageUrls} setImageUrls={setImageUrls} handleImageChange={handleImageChange} />
+                <button onClick={postData} className='text-white mt-10 border-[1px] bg-purple-500 px-5 p-2'>Submit</button>
             </div>
-
         </>
     )
 }

@@ -13,6 +13,7 @@ const Sizes: React.FC<Props> = ({ setFormData }) => {
     }, []);
 
     const handleSizeButtonClick = (size: string) => {
+        console.log("click size",size);
         setSelectedSizes((prevSelectedSizes) => {
             if (prevSelectedSizes.includes(size)) {
                 return prevSelectedSizes.filter((s) => s !== size);
