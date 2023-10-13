@@ -1,3 +1,5 @@
+import Container from "@/container/Container";
+import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import { getCurrentUser } from "./lib/session";
 
@@ -8,6 +10,8 @@ export default async function Home() {
     <>
       <main className="max-w-[1280px] mx-auto px-5">
         <Navbar />
+        {/* <Hero /> */}
+        <Container />
       </main>
     </>
   )
