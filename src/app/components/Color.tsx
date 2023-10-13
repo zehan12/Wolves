@@ -14,11 +14,22 @@ const Color: React.FC<Props> = ({ setFormData, Color }) => {
 
     const colorArray: string[] = Color.split(',');
     const [selectedColors, setSelectColors] = useState<string[]>(colorArray);
+    const [isAlert, setIsAlert] = useState<boolean>(false)
 
     const handleColorButtonClick = () => {
-        setSelectColors((prevSelectedColors) => [...prevSelectedColors, sketchColor]);
-        setOpen(false);
+        if (!sketchColor.length) return;
+        if (!Color.includes(sketchColor)) {
+            setIsAlert(false);
+            setSelectColors((prevSelectedColors) => [...prevSelectedColors, sketchColor]);
+            setOpen(false);
+        } else {
+            setIsAlert(true);
+            setTimeout(()=>{
+                setIsAlert(false);
+            },2000);
+        }
     }
+
 
     useEffect(() => {
         const handleSelectedColors = () => {
@@ -43,7 +54,14 @@ const Color: React.FC<Props> = ({ setFormData, Color }) => {
     }
 
     return (
-        <div>
+        <div className='w-full'>
+            <div className='w-96 h-22'>
+                {
+                    isAlert && (<div className='flex items-center'>This color:
+                        <div className='w-6 h-4 border-[0.1px] ml-1 mr-2' style={{ background: sketchColor }}></div>
+                        is already selected</div>)
+                }
+            </div>
             <div className='flex items-center justify-between mt-3'>
                 <button className='block border-[1px] rounded-lg px-3 text-[14px]'
                     onClick={() => setOpen(!open)}
@@ -63,20 +81,15 @@ const Color: React.FC<Props> = ({ setFormData, Color }) => {
                 {selectedColors.map((selectedColor, index) => (
                     <div key={index} className='flex items-center space-x-4 mb-2'>
                         <div
-                            style={{
-                                width: "40px",
-                                height: "40px",
-                                borderRadius: '100%',
-                                backgroundColor: selectedColor,
-                                display: "inline-block"
-                            }}
-                        >
+                            style={{ background: selectedColor }}
+                            className={`w-10 h-10 border-[0.1px] rounded-full inline-block`}>
                         </div>
                         <span className='border-[1px] rounded-lg p-1 px-3 text-[14px]'>{selectedColor}</span>
                         <button className='border-[1px] rounded-lg p-1 px-3 text-[14px]' onClick={() => handleDeleteColor(index)}>delete</button>
                     </div>
                 ))}
             </div>
+
         </div>
     )
 }
