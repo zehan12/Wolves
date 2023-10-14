@@ -28,7 +28,7 @@ const Filter = (props: Props) => {
         })
     }
 
-    const handlMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.name === "max" ? parseInt(e.target.value) : e.target.value;
         console.log(value)
         props.setPrice({
@@ -45,7 +45,7 @@ const Filter = (props: Props) => {
         )
     }
 
-    const togglesize = (size: string) => {
+    const toggleSize = (size: string) => {
         props.setSelectedSize((prevSize) => 
             prevSize.includes(size) 
             ? prevSize.filter((c) => c !== size):
@@ -64,7 +64,6 @@ const Filter = (props: Props) => {
     const getAllColors = async () => {
         try{
             const response = await axios.get('/api/product/color');
-            console.log("Colors:", response.data);
             return response.data
         }
         catch(error){
@@ -76,20 +75,18 @@ const Filter = (props: Props) => {
     useEffect(() => {
         getAllColors().then((allColors) => {
             if(allColors){
-                const hextSet = new Set<string>()
+                const hexSet = new Set<string>()
                 allColors.forEach((element: any) => {
                     const colors = element.color.split(',')
                     colors.forEach((color: string) => {
-                        const hextValue = color.replace("#", "")
-                        hextSet.add(hextValue)
+                        const hexValue = color.replace("#", "")
+                        hexSet.add(hexValue)
                     })
-                })
-                const uniqueHexValues: string[] = Array.from(hextSet)
-                props.setAllHexValues(uniqueHexValues)
+                });
+                const uniqueHexValues: string[] = Array.from(hexSet);
+                props.setAllHexValues(uniqueHexValues);
             }
         })
-
-        console.log("client of Filter",window!==undefined)
     }, [])
 
 
@@ -169,7 +166,7 @@ const Filter = (props: Props) => {
                             <label htmlFor="" className='text-[15px] opacity-75'>Max</label>
                             <div className='relative'>
                                 <span className='absolute left-3 top-1'>$</span>
-                                <input className='w-full outline-none border-[1px] rounded-lg px-2 text-center py-[2px]' type="number" name="max" onChange={handlMaxChange} value={props.price.max} id="" />
+                                <input className='w-full outline-none border-[1px] rounded-lg px-2 text-center py-[2px]' type="number" name="max" onChange={handleMaxChange} value={props.price.max} id="" />
                             </div>
                         </div>
                     </div>
@@ -179,12 +176,12 @@ const Filter = (props: Props) => {
                         <h1 className='text-neutral-800'>Colors</h1>
                     </div>
                     <ul className='grid grid-cols-4 px-5 gap-5 mb-4'>
-                        {allHexValue.map((hexvalue, index) => (
+                        {allHexValue.map((hexValue, index) => (
                             <li
                             key={index}
-                            className={`w-[40px] h-[40px] rounded-2xl border-[0.5px] border-neutral-300 cursor-pointer ${props.selectedHexValues.includes(`#${hexvalue}`) ? "shadow-2xl opacity-25":""}`}
-                            style={{backgroundColor: `#${hexvalue}`}}
-                            onClick={() => toggleColor(`#${hexvalue}`)}
+                            className={`w-[40px] h-[40px] rounded-2xl border-[0.5px] border-neutral-300 cursor-pointer ${props.selectedHexValues.includes(`#${hexValue}`) ? "shadow-2xl opacity-25":""}`}
+                            style={{backgroundColor: `#${hexValue}`}}
+                            onClick={() => toggleColor(`#${hexValue}`)}
                             >
 
                             </li>
@@ -198,37 +195,37 @@ const Filter = (props: Props) => {
                     <ul className='grid grid-cols-4 px-5 gap-5'>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('SM') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('SM')}
+                        onClick={() => toggleSize('SM')}
                         >
                             SM
                         </li>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('MD') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('MD')}
+                        onClick={() => toggleSize('MD')}
                         >
                             MD
                         </li>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('XL') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('XL')}
+                        onClick={() => toggleSize('XL')}
                         >
                             XL
                         </li>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('2XL') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('2XL')}
+                        onClick={() => toggleSize('2XL')}
                         >
                             2XL
                         </li>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('3XL') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('3XL')}
+                        onClick={() => toggleSize('3XL')}
                         >
                             3XL
                         </li>
                         <li
                         className={`border-[0.5px] rounded-lg text-center text-[14px] py-[2px] cursor-pointer ${props.selectedSize.includes('4XL') ? 'bg-neutral-900 text-white':''}`}
-                        onClick={() => togglesize('2XL')}
+                        onClick={() => toggleSize('4XL')}
                         >
                             4XL
                         </li>

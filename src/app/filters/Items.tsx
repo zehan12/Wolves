@@ -36,7 +36,6 @@ const Items: React.FC<props> = ({ selectedCategories, selectedSize, price, selec
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log(response.data,"filter data")
                 setResponse(response.data.data);
                     
             } catch (error) {

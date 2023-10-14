@@ -6,7 +6,8 @@ export const dynamic = 'auto'
 export async function GET(request: Request) {
   console.log("get request on filter pass")
   try {
-    const searchParams = new URLSearchParams(request.credentials);
+    const searchParams = new URLSearchParams(request.url);
+    console.log(searchParams)
 
     const categories = searchParams.getAll("categories[]");
     const colors = searchParams.getAll("colors[]");
@@ -15,6 +16,7 @@ export async function GET(request: Request) {
     const minPrice = parseInt(searchParams.get("price[min]") || "0");
     const maxPrice = parseInt(searchParams.get("price[max]") || "100000");
 
+    console.log(colors)
     const products = await prisma.product.findMany({
       where: {
         OR: [

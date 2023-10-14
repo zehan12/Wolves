@@ -7,8 +7,7 @@ export async function GET(request: Request) {
             select:{
                 color:true
             }
-        })
-
+        });
         return NextResponse.json(allColors)
     }
     catch(error){
