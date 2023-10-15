@@ -17,22 +17,29 @@ export async function POST(req: NextRequest) {
     store,
   } = body;
   try {
-    const product = await prisma.product.create({
-      data: {
-        title,
-        description,
-        category,
-        style,
-        size,
-        inventory,
-        color,
-        price,
-        images,
-        userId,
-        store,
-      },
-    });
-    return NextResponse.json(product);
+    // const product = await prisma.product.create({
+    //   data: {
+    //     title,
+    //     description,
+    //     category,
+    //     style,
+    //     size,
+    //     inventory,
+    //     color,
+    //     price,
+    //     images,
+    //     userId,
+    //     store,
+    //   },
+    // });
+    const array = color
+      .split(",")
+      .filter(
+        (value: string, index: number, self: string[]) =>
+          self.indexOf(value) === index
+      );
+    console.log(array);
+    return NextResponse.json(body);
   } catch (error) {
     console.log("Error creating the product", error);
     return NextResponse.error();

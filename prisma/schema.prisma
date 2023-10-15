@@ -41,6 +41,9 @@ model Product{
   @@index([userId])
 }
 
+// color[c1,c2,c3]
+// images [c1:[],c2:[],c3:[]]
+
 model Cart {
   id        Int     @id @default(autoincrement())
   productId  Int

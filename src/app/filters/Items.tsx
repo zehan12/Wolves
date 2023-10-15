@@ -3,7 +3,6 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import arpit from "../../../public/assets/apritHum.webp";
 
 type props = {
     selectedCategories: string[];
