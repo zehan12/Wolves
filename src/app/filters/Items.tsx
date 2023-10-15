@@ -22,7 +22,7 @@ const Items: React.FC<props> = ({ selectedCategories, selectedSize, price, selec
     useEffect(() => {
         const fetchFilterProduct = async () => {
             try {
-                const response  = await axios.get('/api/product/filter', {
+                const response = await axios.get('/api/product/filter', {
                     params: {
                         categories: selectedCategories,
                         size: selectedSize,
@@ -37,7 +37,7 @@ const Items: React.FC<props> = ({ selectedCategories, selectedSize, price, selec
                     }
                 });
                 setResponse(response.data.data);
-                    
+
             } catch (error) {
                 console.log('error', error)
             }
@@ -66,10 +66,15 @@ const Items: React.FC<props> = ({ selectedCategories, selectedSize, price, selec
                     </div>
                 )) :
                     (
-                        <div className="w-full flex justify-evenly">
-                            <div className="text-3xl text-semibold">Response Data</div>
-                            <Image src={arpit} width={300} height={300} alt='arpit' />
-                        </div>
+                        Array(10).fill(0).map((el, index) => (
+                            <div key={index}>
+                                    <div className='bg-gray-300 w-52 h-60 rounded-xl animate-pulse'></div>
+                                    <div className='flex flex-col gap-2 w-9/12 mt-3'>
+                                        <span className='w-11/12 bg-gray-300 h-2 rounded-full animate-pulse'></span>
+                                        <span className='w-9/12 bg-gray-300 h-2 rounded-full animate-pulse'></span>
+                                    </div>
+                            </div>
+                        ))
                     )
                 }
             </div>
